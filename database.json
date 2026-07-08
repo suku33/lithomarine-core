@@ -1,0 +1,7 @@
+[
+  { "id": "MAR-001", "name": "MV Stellar Banner", "lat": -7.0167, "lng": -43.0000, "steel": 45000, "copper": 400, "depth": 2500, "status": "AVAILABLE" },
+  { "id": "MAR-002", "name": "Deepwater Horizon", "lat": 28.7364, "lng": -88.3650, "steel": 32000, "copper": 250, "depth": 1500, "status": "PROCESSING" },
+  { "id": "MAR-003", "name": "HMHS Britannic", "lat": 37.7000, "lng": 24.2833, "steel": 48000, "copper": 600, "depth": 120, "status": "CLEARANCE" },
+  { "id": "MAR-004", "name": "Ocean Ranger", "lat": 46.7167, "lng": -48.8333, "steel": 15000, "copper": 110, "depth": 80, "status": "AVAILABLE" },
+  { "id": "MAR-005", "name": "Petrobras 36 / P-36", "lat": -22.3500, "lng": -40.3500, "steel": 31200, "copper": 340, "depth": 1360, "status": "AVAILABLE" }
+]
