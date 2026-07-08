@@ -3,15 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Maritime Commodities Exchange</title>
+    <title>Global Maritime Commodities Exchange - Core Terminal</title>
+    <!-- Premium Interactive Mapping Canvas Engine Injection -->
+    <link rel="stylesheet" href="https://unpkg.com" />
+    <script src="https://unpkg.com"></script>
     <style>
+        /* 1. Global Setup & Institutional Palette Variables */
         :root {
-            --bg-slate: #1A1F2C;         
-            --bg-sidebar: #11141D;       
-            --accent-emerald: #00C853;   
-            --text-white: #F8F9FA;       
-            --text-gray: #A0AEC0;        
-            --border-panel: #2D3748;     
+            --bg-slate: #1A1F2C;         /* Premium Deep Slate Grey */
+            --bg-sidebar: #11141D;       /* Darker Institutional Panel Grey */
+            --accent-emerald: #00C853;   /* Non-Neon Pure Emerald Green */
+            --text-white: #F8F9FA;       /* Clean Off-White Text */
+            --text-gray: #A0AEC0;        /* Subtle Secondary Text */
+            --border-panel: #2D3748;     /* Sleek Terminal Borders */
         }
 
         * {
@@ -25,10 +29,12 @@
             height: 100%;
             background-color: var(--bg-slate);
             color: var(--text-white);
-            font-family: 'Segoe UI', system-ui, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             overflow: hidden;
+            user-select: none;
         }
 
+        /* 2. Top Terminal Banner Header */
         header {
             width: 100%;
             height: 60px;
@@ -38,34 +44,39 @@
             justify-content: space-between;
             align-items: center;
             padding: 0 30px;
-            z-index: 10;
+            z-index: 1000;
             position: relative;
         }
 
         .logo {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 700;
             color: var(--accent-emerald);
-            letter-spacing: 1.5px;
+            letter-spacing: 2px;
         }
 
         .terminal-status {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--accent-emerald);
-            background: rgba(0, 200, 83, 0.1);
-            padding: 4px 10px;
+            background: rgba(0, 200, 83, 0.05);
+            padding: 5px 12px;
             border: 1px solid var(--accent-emerald);
-            border-radius: 4px;
+            border-radius: 2px;
             font-family: monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
+        /* 3. Main Workspace Application Layout Wrapper */
         .wrapper {
             display: flex;
             width: 100%;
             height: calc(100% - 60px);
+            position: relative;
         }
 
-        .sidebar {
+        /* 4. Left Institutional Metrics Analytics Sidebar */
+        .sidebar-left {
             width: 320px;
             height: 100%;
             background-color: var(--bg-sidebar);
@@ -74,261 +85,213 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
-            z-index: 5;
+            z-index: 999;
         }
 
-        .sidebar h2 {
-            font-size: 14px;
+        /* 5. Right Terminal Fixed Readout Sidebar (Option B Style) */
+        .sidebar-right {
+            width: 340px;
+            height: 100%;
+            background-color: var(--bg-sidebar);
+            border-left: 1px solid var(--border-panel);
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 999;
+            font-family: monospace;
+        }
+
+        .sidebar-left h2, .sidebar-right h2 {
+            font-size: 12px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             color: var(--text-gray);
             border-bottom: 1px solid var(--border-panel);
             padding-bottom: 10px;
         }
 
         .metric-card {
-            background: rgba(26, 31, 44, 0.5);
+            background: rgba(26, 31, 44, 0.4);
             border: 1px solid var(--border-panel);
             padding: 15px;
-            border-radius: 6px;
+            border-radius: 2px;
         }
 
         .metric-label {
-            font-size: 11px;
+            font-size: 10px;
             text-transform: uppercase;
+            letter-spacing: 1px;
             color: var(--text-gray);
             margin-bottom: 5px;
         }
 
         .metric-value {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 700;
             color: var(--text-white);
+            font-family: monospace;
         }
 
         .metric-value.emerald {
             color: var(--accent-emerald);
         }
 
-        /* NEW Style: Filter Control Deck */
-        .filter-group {
-            margin-top: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .filter-btn {
-            background: transparent;
-            border: 1px solid var(--border-panel);
-            color: var(--text-white);
-            padding: 8px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
-            text-align: left;
-            transition: all 0.2s;
-        }
-
-        .filter-btn:hover {
-            border-color: var(--accent-emerald);
-            color: var(--accent-emerald);
-        }
-
-        .map-canvas {
+        /* 6. Center Stage Map Viewport Engine (Fluid Movement B Style) */
+        .map-viewport {
             flex: 1;
             height: 100%;
             position: relative;
-            background-color: #151924;
-            background-image: linear-gradient(rgba(45, 55, 72, 0.1) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(45, 55, 72, 0.1) 1px, transparent 1px);
-            background-size: 40px 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
+            background-color: #0b0e14;
         }
 
-        .world-map-svg {
-            width: 90%;
-            height: 80%;
-            opacity: 0.15;
-            stroke: var(--text-gray);
+        #map-container {
+            width: 100%;
+            height: 100%;
+            background-color: #0b0e14;
+        }
+
+        /* Custom Injected CSS Map Styles (Hex/Contour Grid Simulation) */
+        .leaflet-container {
+            background: #0b0e14 !important;
+        }
+        
+        .leaflet-grid-line {
+            stroke: rgba(45, 55, 72, 0.15);
             stroke-width: 0.5;
-            fill: none;
         }
 
-        .bathymetric-contour {
-            stroke: var(--accent-emerald);
-            opacity: 0.25;
-            stroke-width: 0.8;
-            stroke-dasharray: 2 4;
-        }
-
-        .coordinate-grid {
+        /* Subtle Dark Hexagonal Grid Overlay Mask Simulation */
+        #map-container::after {
+            content: '';
             position: absolute;
-            font-family: monospace;
-            font-size: 11px;
-            color: rgba(0, 200, 83, 0.7);
-            background: rgba(17, 20, 29, 0.6);
-            padding: 6px 12px;
-            border: 1px solid rgba(45, 55, 72, 0.4);
-            border-radius: 4px;
-            letter-spacing: 0.5px;
-            z-index: 6;
-        }
-
-        .pin {
-            position: absolute;
-            width: 12px;
-            height: 12px;
-            background-color: var(--accent-emerald);
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 0 15px var(--accent-emerald), 0 0 5px #fff;
-            transition: opacity 0.3s, transform 0.2s;
-            z-index: 8;
-        }
-
-        .pin:hover {
-            transform: scale(1.5);
-        }
-
-        .pin-label {
-            position: absolute;
-            font-family: monospace;
-            font-size: 10px;
-            color: var(--accent-emerald);
-            white-space: nowrap;
-            background: var(--bg-sidebar);
-            padding: 2px 6px;
-            border: 1px solid var(--border-panel);
-            border-radius: 3px;
-            transform: translate(18px, -4px);
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-size: 24px 24px;
+            background-image: linear-gradient(30deg, #11141d 12%, transparent 12.5%, transparent 87%, #11141d 87.5%, #11141d),
+                              linear-gradient(150deg, #11141d 12%, transparent 12.5%, transparent 87%, #11141d 87.5%, #11141d),
+                              linear-gradient(30deg, #11141d 12%, transparent 12.5%, transparent 87%, #11141d 87.5%, #11141d),
+                              linear-gradient(150deg, #11141d 12%, transparent 12.5%, transparent 87%, #11141d 87.5%, #11141d),
+                              linear-gradient(60deg, rgba(0, 200, 83, 0.015) 25%, transparent 25.5%, transparent 75%, rgba(0, 200, 83, 0.015) 75.5%, rgba(0, 200, 83, 0.015)),
+                              linear-gradient(60deg, rgba(0, 200, 83, 0.015) 25%, transparent 25.5%, transparent 75%, rgba(0, 200, 83, 0.015) 75.5%, rgba(0, 200, 83, 0.015));
             pointer-events: none;
+            z-index: 500;
+            opacity: 0.7;
         }
 
-        #pin-stellar { top: 62%; left: 38%; }
-        #pin-deepwater { top: 38%; left: 22%; }
-        #pin-britannic { top: 40%; left: 52%; }
+        /* Institutional Emerald Coordinates Tracking Pins */
+        .custom-emerald-pin {
+            background-color: var(--accent-emerald);
+            border: 2px solid #FFF;
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--accent-emerald), 0 0 5px var(--accent-emerald);
+            transition: transform 0.2s ease;
+        }
 
-        .map-overlay-info {
-            position: absolute;
-            bottom: 25px;
-            right: 25px;
-            background: rgba(11, 20, 29, 0.9);
+        .custom-emerald-pin:hover {
+            transform: scale(1.3);
+            border-color: var(--accent-emerald);
+        }
+
+        /* 7. Right Panel Streaming Data Log Controls */
+        .terminal-stream-log {
+            flex: 1;
+            background-color: rgba(11, 20, 29, 0.6);
             border: 1px solid var(--border-panel);
-            backdrop-filter: blur(10px);
             padding: 15px;
-            border-radius: 6px;
-            max-width: 310px;
-            font-size: 12px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            font-size: 11px;
             color: var(--text-gray);
-            z-index: 6;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-            text-align: left;
+            line-height: 1.5;
         }
 
-        .map-overlay-info strong {
+        .stream-header {
+            color: var(--accent-emerald);
+            font-weight: 700;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border-panel);
+            padding-bottom: 4px;
+        }
+
+        .data-item {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed rgba(45, 55, 72, 0.5);
+            padding-bottom: 4px;
+        }
+
+        .data-item span:last-child {
             color: var(--text-white);
-            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .placeholder-text {
+            text-align: center;
+            color: var(--text-gray);
+            font-style: italic;
+            margin-top: 50%;
         }
     </style>
 </head>
 <body>
 
+    <!-- Main Header Bar -->
     <header>
-        <div class="logo">LITHOMARINE CORE</div>
-        <div class="terminal-status">GLOBAL HARDWARE SYNCED // SECURE</div>
+        <div class="logo">LITHOMARINE INTEL CORE</div>
+        <div class="terminal-status">TELEMETRY SECURE // PORT: 443</div>
     </header>
 
     <div class="wrapper">
         
-        <div class="sidebar">
+        <!-- Left Side Panel Metrics -->
+        <div class="sidebar-left">
             <h2>Asset Matrix Metrics</h2>
             
             <div class="metric-card">
-                <div class="metric-label">Registered Material Mass</div>
-                <div class="metric-value">264,392 <span style="font-size: 13px; color: var(--text-gray); font-weight: normal;">TONS</span></div>
+                <div class="metric-label">Material Mass: Total Steel</div>
+                <div class="metric-value">45,000T <span style="font-size: 11px; color: var(--text-gray); font-weight: normal;">BASE</span></div>
             </div>
 
             <div class="metric-card">
-                <div class="metric-label">Estimated Carbon Offset Value</div>
-                <div class="metric-value emerald">$11.2M <span style="font-size: 13px; color: var(--accent-emerald); font-weight: normal;">USD</span></div>
+                <div class="metric-label">Carbon Offset Value</div>
+                <div class="metric-value emerald">$11.24M <span style="font-size: 11px; color: var(--accent-emerald); font-weight: normal;">USD</span></div>
             </div>
 
-            <!-- NEW HTML Panel: Depth Filter Dashboard Controls -->
             <div class="metric-card">
-                <div class="metric-label">Depth Sector Sorting</div>
-                <div class="filter-group">
-                    <button class="filter-btn" onclick="filterSector('all')">👁️ Show All Active Sectors</button>
-                    <button class="filter-btn" onclick="filterSector('shallow')">⚓ Filter: Shallow Only (&lt;500m)</button>
-                    <button class="filter-btn" onclick="filterSector('deep')">🌌 Filter: Deep Zone Only (&gt;500m)</button>
-                </div>
+                <div class="metric-label">System Architecture</div>
+                <div class="metric-value" style="font-size: 14px; font-family: monospace;">HEX-CONTOR ACTIVE</div>
             </div>
         </div>
 
-        <div class="map-canvas">
-            <div class="coordinate-grid" style="top: 25px; left: 25px;">LAT: 28.7411° N // LONG: 88.3524° W</div>
-            <div class="coordinate-grid" style="top: 25px; right: 25px;">SYS.REF // GRID-DELTA-BETA-02</div>
-            <div class="coordinate-grid" style="bottom: 25px; left: 25px;">BATHYMETRIC DEPTH PROFILE: ACTIVE</div>
+        <!-- Center Stage Map Viewport -->
+        <div class="map-viewport">
+            <div id="map-container"></div>
+        </div>
 
-            <svg class="world-map-svg" viewBox="0 0 1000 500">
-                <line x1="0" y1="250" x2="1000" y2="250" stroke-dasharray="5 5" />
-                <line x1="500" y1="0" x2="500" y2="500" stroke-dasharray="5 5" />
-                
-                <circle class="bathymetric-contour" cx="380" cy="310" r="40" />
-                <circle class="bathymetric-contour" cx="380" cy="310" r="80" />
-                <circle class="bathymetric-contour" cx="220" cy="190" r="30" />
-                <circle class="bathymetric-contour" cx="220" cy="190" r="60" />
-                <circle class="bathymetric-contour" cx="520" cy="200" r="50" />
-                <circle class="bathymetric-contour" cx="520" cy="200" r="95" />
-                
-                <path d="M 100,150 Q 250,180 400,120 T 700,200 T 900,100" />
-                <path d="M 50,350 Q 300,300 550,380 T 850,320" />
-            </svg>
-
-            <!-- Added data-depth classification markers directly into elements -->
-            <div class="pin" id="pin-stellar" data-depth="deep" onclick="alert('Asset: MV Stellar Banner \nMass: 45,000T Structural Steel \nCoordinates: 07°01\'S, 43°00\'W \nStatus: Verified Reserve')">
-                <div class="pin-label">STELLAR BANNER [07°S, 43°W]</div>
-            </div>
-            
-            <div class="pin" id="pin-deepwater" data-depth="shallow" onclick="alert('Asset: Deepwater Horizon \nMass: 32,000T High-Grade Steel \nCoordinates: 28°44\'N, 88°21\'W \nStatus: Active Processing Sector')">
-                <div class="pin-label">DEEPWATER HORIZON [28°N, 88°W]</div>
-            </div>
-            
-            <div class="pin" id="pin-britannic" data-depth="deep" onclick="alert('Asset: HMHS Britannic \nMass: 48,000T Antique Structural Steel \nCoordinates: 37°42\'N, 24°17\'E \nStatus: Clearance Granted')">
-                <div class="pin-label">BRITANNIC [37°N, 24°E]</div>
-            </div>
-
-            <div class="map-overlay-info">
-                <strong>Global Bathymetric Viewport Active</strong><br><br>
-                Hover and click on the emerald tracking coordinate pins to select deep-sea material reserves and display cross-border transactional ledger certificates.
+        <!-- Right Side Panel Terminal Output Log -->
+        <div class="sidebar-right">
+            <h2>Terminal Compiler</h2>
+            <div class="terminal-stream-log" id="terminal-stream">
+                <div class="placeholder-text">Select tracking marker coordinates on global map viewport frame to run asset telemetry logging parameters...</div>
             </div>
         </div>
 
     </div>
 
     <script>
-        function filterSector(sector) {
-            const pins = document.querySelectorAll('.pin');
-            pins.forEach(pin => {
-                const depth = pin.getAttribute('data-depth');
-                if (sector === 'all') {
-                    pin.style.display = 'block';
-                    pin.style.opacity = '1';
-                } else if (sector === 'shallow' && depth === 'shallow') {
-                    pin.style.display = 'block';
-                    pin.style.opacity = '1';
-                } else if (sector === 'deep' && depth === 'deep') {
-                    pin.style.display = 'block';
-                    pin.style.opacity = '1';
-                } else {
-                    pin.style.opacity = '0.2';
-                    pin.style.pointerEvents = 'none';
-                }
-            });
-        }
+        // --- 2D DRAG AND ZOOM MAP ENGINE CONFIGURATIONS ---
+        const map = L.map('map-container', {
+            center: [20.0, -10.0],
+            zoom: 3,
+            minZoom: 2,
+            maxZoom: 6,
+            zoomControl: false,  /* Sleek minimalist look */
+            attributionControl: false
+        });
+
+        // Procedural Custom Black Grid Ocean Map Engine Layer
     </script>
 
 </body>
