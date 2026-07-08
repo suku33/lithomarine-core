@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lithomarine Core - Deep Sea Command Terminal</title>
-    <!-- Leaflet Mapping Architecture Engine -->
     <link rel="stylesheet" href="https://unpkg.com" />
     <script src="https://unpkg.com"></script>
     <style>
@@ -17,234 +16,135 @@
             --border-panel: #2D3748;     
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body, html { width: 100%; height: 100%; background-color: var(--bg-slate); color: var(--text-white); font-family: 'Segoe UI', system-ui, sans-serif; overflow: hidden; user-select: none; }
 
-        body, html {
-            width: 100%;
-            height: 100%;
-            background-color: var(--bg-slate);
-            color: var(--text-white);
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            overflow: hidden;
-            user-select: none;
-        }
-
+        /* Institutional Header Incorporating the New Logo Structure */
         header {
-            width: 100%;
-            height: 50px;
-            background-color: var(--bg-sidebar);
-            border-bottom: 1px solid var(--border-panel);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 25px;
-            z-index: 1000;
+            width: 100%; height: 65px; background-color: var(--bg-sidebar); border-bottom: 1px solid var(--border-panel);
+            display: flex; justify-content: space-between; align-items: center; padding: 0 25px; z-index: 1000;
         }
 
-        .logo {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--accent-emerald);
-            letter-spacing: 2px;
-        }
+        .brand-container { display: flex; align-items: center; gap: 12px; }
+        
+        /* The Litho-Vane SVG Icon Logo Graphic Base */
+        .logo-svg { width: 28px; height: 28px; fill: none; stroke: var(--text-white); stroke-width: 2; }
+        .logo-emerald-line { stroke: var(--accent-emerald); stroke-width: 1.5; }
 
-        .terminal-status {
-            font-size: 11px;
-            color: var(--accent-emerald);
-            background: rgba(0, 200, 83, 0.05);
-            padding: 4px 10px;
-            border: 1px solid var(--accent-emerald);
-            border-radius: 2px;
-            font-family: monospace;
-            text-transform: uppercase;
-        }
+        .logo-text { font-size: 15px; font-weight: 700; color: var(--text-white); letter-spacing: 2.5px; font-family: monospace; }
+        .logo-sub { font-size: 9px; color: var(--accent-emerald); letter-spacing: 1px; display: block; font-weight: normal; }
 
-        /* Full Screen Quadrant Grid System Layout */
-        .workspace-grid {
-            display: grid;
-            grid-template-columns: 320px 1fr 340px;
-            grid-template-rows: 1fr 220px;
-            width: 100%;
-            height: calc(100% - 50px);
-            background-color: #0b0e14;
-        }
+        .terminal-status { font-size: 11px; color: var(--accent-emerald); background: rgba(0, 200, 83, 0.05); padding: 4px 10px; border: 1px solid var(--accent-emerald); border-radius: 2px; font-family: monospace; }
 
-        .panel {
-            background-color: var(--bg-sidebar);
-            border: 1px solid var(--border-panel);
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            overflow: hidden;
-        }
+        .workspace-grid { display: grid; grid-template-columns: 320px 1fr 340px; grid-template-rows: 1fr 220px; width: 100%; height: calc(100% - 65px); background-color: #0b0e14; }
+        .panel { background-color: var(--bg-sidebar); border: 1px solid var(--border-panel); padding: 20px; display: flex; flex-direction: column; gap: 15px; overflow: hidden; }
+        .panel h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-gray); border-bottom: 1px solid var(--border-panel); padding-bottom: 8px; font-family: monospace; }
 
-        .panel h2 {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--text-gray);
-            border-bottom: 1px solid var(--border-panel);
-            padding-bottom: 8px;
-            font-family: monospace;
-        }
-
-        /* Panel Configurations per Quadrant */
         .quadrant-left { grid-column: 1; grid-row: 1 / span 2; border-right: 1px solid var(--border-panel); }
         .quadrant-center-top { grid-column: 2; grid-row: 1; position: relative; background-color: #0b0e14; padding: 0; border: none; }
         .quadrant-center-bottom { grid-column: 2; grid-row: 2; border-top: 1px solid var(--border-panel); border-right: 1px solid var(--border-panel); }
         .quadrant-right-top { grid-column: 3; grid-row: 1; border-left: 1px solid var(--border-panel); }
         .quadrant-right-bottom { grid-column: 3; grid-row: 2; border-left: 1px solid var(--border-panel); border-top: 1px solid var(--border-panel); }
 
-        /* Component Styling */
-        .metric-card {
-            background: rgba(26, 31, 44, 0.5);
-            border: 1px solid var(--border-panel);
-            padding: 12px;
-            border-radius: 2px;
-            font-family: monospace;
-        }
-
-        .metric-label {
-            font-size: 10px;
-            text-transform: uppercase;
-            color: var(--text-gray);
-            margin-bottom: 4px;
-        }
-
-        .metric-value {
-            font-size: 18px;
-            font-weight: 700;
-        }
-
+        .metric-card { background: rgba(26, 31, 44, 0.5); border: 1px solid var(--border-panel); padding: 12px; border-radius: 2px; font-family: monospace; }
+        .metric-label { font-size: 10px; text-transform: uppercase; color: var(--text-gray); margin-bottom: 4px; }
+        .metric-value { font-size: 18px; font-weight: 700; }
         .metric-value.emerald { color: var(--accent-emerald); }
 
         #map-container { width: 100%; height: 100%; }
+        #map-container::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: 30px 30px; background-image: linear-gradient(rgba(0, 200, 83, 0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 200, 83, 0.015) 1px, transparent 1px); pointer-events: none; z-index: 500; }
 
-        /* Custom Injected Visual Matrix Overlay Grid Mapping */
-        #map-container::after {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-size: 30px 30px;
-            background-image: linear-gradient(rgba(0, 200, 83, 0.015) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(0, 200, 83, 0.015) 1px, transparent 1px);
-            pointer-events: none; z-index: 500;
-        }
-
-        .custom-emerald-pin {
-            background-color: var(--accent-emerald);
-            border: 2px solid #FFF;
-            border-radius: 50%;
-            box-shadow: 0 0 15px var(--accent-emerald);
-            cursor: pointer;
-        }
-
-        /* 1. Market Live Ticker Styling */
-        .ticker-row {
-            display: flex; justify-content: space-between; font-size: 12px;
-            border-bottom: 1px dashed rgba(45, 55, 72, 0.4); padding-bottom: 5px;
-        }
+        .custom-emerald-pin { background-color: var(--accent-emerald); border: 2px solid #FFF; border-radius: 50%; box-shadow: 0 0 15px var(--accent-emerald); cursor: pointer; }
         .ticker-up { color: var(--accent-emerald); font-weight: bold; }
 
-        /* 2. Sonar Deep Sea Column View Canvas Graphic */
-        .sonar-canvas-box {
-            flex: 1; width: 100%; background: #131722; border: 1px solid var(--border-panel);
-            position: relative; display: flex; flex-direction: column; justify-content: space-between;
-            padding: 10px; font-family: monospace; font-size: 10px; color: var(--text-gray);
-        }
-        .sonar-line {
-            width: 100%; height: 2px; background-color: var(--accent-emerald);
-            position: absolute; left: 0; opacity: 0.3;
-            animation: sweep 3s infinite linear;
-        }
+        .sonar-canvas-box { flex: 1; width: 100%; background: #131722; border: 1px solid var(--border-panel); position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: 10px; font-family: monospace; font-size: 10px; color: var(--text-gray); }
+        .sonar-line { width: 100%; height: 2px; background-color: var(--accent-emerald); position: absolute; left: 0; opacity: 0.3; animation: sweep 3s infinite linear; }
         @keyframes sweep { 0% { top: 0%; } 100% { top: 100%; } }
 
-        /* 3. ROV Automation Command Stream Matrix Logs */
-        .rov-log-console {
-            flex: 1; background: #0c0f16; border: 1px solid var(--border-panel);
-            padding: 10px; font-family: monospace; font-size: 11px; color: var(--accent-emerald);
-            overflow-y: auto; display: flex; flex-direction: column; gap: 6px;
-        }
+        .rov-log-console { flex: 1; background: #0c0f16; border: 1px solid var(--border-panel); padding: 10px; font-family: monospace; font-size: 11px; color: var(--accent-emerald); overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
+        .btn-reserve { display: none; width: 100%; background-color: transparent; border: 1px solid var(--accent-emerald); color: var(--accent-emerald); padding: 10px; font-family: monospace; font-size: 11px; font-weight: bold; cursor: pointer; margin-top: 15px; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s ease; }
+        .btn-reserve:hover { background-color: rgba(0, 200, 83, 0.1); }
+        .btn-reserve:disabled { border-color: var(--text-gray); color: var(--text-gray); background-color: rgba(45, 55, 72, 0.2); cursor: not-allowed; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">LITHOMARINE INTEL EXECUTIVE CORE</div>
-        <div class="terminal-status">MATRIX SUBSYSTEM INTEGRATION COMPLETE</div>
+        <!-- Injected Structural Logo Architecture -->
+        <div class="brand-container">
+            <svg class="logo-svg" viewBox="0 0 100 100">
+                <path d="M20,15 L20,80 L80,80" stroke-linecap="square"/>
+                <path d="M20,50 L50,80 L80,50" />
+                <line class="logo-emerald-line" x1="10" y1="65" x2="90" y2="65" />
+                <line class="logo-emerald-line" x1="15" y1="72" x2="85" y2="72" />
+            </svg>
+            <div>
+                <span class="logo-text">LITHOMARINE CORE</span>
+                <span class="logo-sub">GLOBAL COMMODITIES EXCHANGE</span>
+            </div>
+        </div>
+        <div class="terminal-status">ASYNC PIPELINE SYNCED // SYSTEMS SECURE</div>
     </header>
 
     <div class="workspace-grid">
-        
-        <!-- QUADRANT 1: LEFT SIDEBAR (Live Financial Market Feeds & Master Core Data) -->
         <div class="panel quadrant-left">
             <h2>Live Commodity Ticker</h2>
-            <div class="metric-card">
-                <div class="metric-label">LME Marine Steel Base</div>
-                <div class="metric-value ticker-up" id="live-steel-price">$642.80 / T</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-label">LME Heavy Industrial Copper</div>
-                <div class="metric-value ticker-up" id="live-copper-price">$8,940.15 / T</div>
-            </div>
+            <div class="metric-card"><div class="metric-label">LME Marine Steel Base</div><div class="metric-value ticker-up" id="live-steel-price">$642.80 / T</div></div>
+            <div class="metric-card"><div class="metric-label">LME Heavy Industrial Copper</div><div class="metric-value ticker-up" id="live-copper-price">$8,940.15 / T</div></div>
             <h2>Global Asset Portfolio</h2>
-            <div class="metric-card">
-                <div class="metric-label">Consolidated Asset Fleet Tonnage</div>
-                <div class="metric-value">264,392 TONS</div>
-            </div>
-            <div class="metric-card">
-                <div class="metric-label">Live Dynamic Arbitrage Yield</div>
-                <div class="metric-value emerald" id="live-arbitrage-yield">$11,241,850 USD</div>
-            </div>
+            <div class="metric-card"><div class="metric-label">Consolidated Asset Fleet Tonnage</div><div class="metric-value" id="fleet-mass-label">0 TONS</div></div>
+            <div class="metric-card"><div class="metric-label">Live Dynamic Arbitrage Yield</div><div class="metric-value emerald" id="live-arbitrage-yield">$0 USD</div></div>
         </div>
 
-        <!-- QUADRANT 2: CENTER-TOP (Geographical Tactile Command Viewport Map Frame) -->
-        <div class="panel quadrant-center-top">
-            <div id="map-container"></div>
-        </div>
+        <div class="panel quadrant-center-top"><div id="map-container"></div></div>
 
-        <!-- QUADRANT 3: CENTER-BOTTOM (Visual Sonar Water Column Profile Chart Deck) -->
         <div class="panel quadrant-center-bottom">
             <h2>Tactical Sonar Depth Strata Profile</h2>
             <div class="sonar-canvas-box">
                 <div class="sonar-line"></div>
-                <div style="border-bottom: 1px dashed rgba(0,200,83,0.2); padding-bottom:3px;">0M // SEA SURFACE STANDARDS BOUNDARY</div>
+                <div style="border-bottom: 1px dashed rgba(0,200,83,0.2); padding-bottom:3px;">0M // SEA SURFACE BOUNDARY</div>
                 <div id="sonar-vessel-marker" style="color:#FFF; font-weight:bold; margin-left: 40%; display:none; border-left: 2px solid var(--accent-emerald); padding-left: 8px;">
-                    <span id="sonar-vessel-name">TARGET</span> <br>
-                    POSITIONING METRIC: <span id="sonar-vessel-depth">0M</span>
+                    <span id="sonar-vessel-name">TARGET</span> <br>POSITIONING METRIC: <span id="sonar-vessel-depth">0M</span>
                 </div>
-                <div style="border-top: 1px dashed rgba(0,200,83,0.2); padding-top:3px;">BATHYMETRIC FLOOR BOUNDARY AREA DETECTED</div>
+                <div style="border-top: 1px dashed rgba(0,200,83,0.2); padding-top:3px;">BATHYMETRIC FLOOR DETECTED</div>
             </div>
         </div>
 
-        <!-- QUADRANT 4: RIGHT-TOP (Fixed Geographical Telemetry Log Stream Compiler) -->
         <div class="panel quadrant-right-top">
             <h2>Terminal Telemetry Compiler</h2>
-            <div id="terminal-readout" style="font-family: monospace; font-size: 11px; color: var(--text-gray); line-height: 1.6;">
-                Select target tracking node parameters within the map viewport viewport container frames to isolate asset logging matrix streams...
+            <div id="terminal-readout" style="font-family: monospace; font-size: 11px; color: var(--text-gray); line-height: 1.6; flex: 1;">
+                Querying external cloud files... Select active green ledger nodes mapping across the map interface framework once download sequence completes.
             </div>
+            <button id="reserve-button" class="btn-reserve" onclick="executePersistentContract()">Reserve Resource Rights</button>
         </div>
 
-        <!-- QUADRANT 5: RIGHT-BOTTOM (Autonomous Robotic ROV Extraction Simulation Matrix Log) -->
         <div class="panel quadrant-right-bottom">
             <h2>Autonomous Extraction Grid Logs</h2>
-            <div class="rov-log-console" id="rov-log">
-                [SYS INTERLINK] SYSTEM RUNTIME STANDBY STATUS REGULATED<br>
-                [SYS INTERLINK] WAITING FOR VECTOR NODE INITIALIZATION COMMANDS...
-            </div>
+            <div class="rov-log-console" id="rov-log">[SYS INTERLINK] TERMINAL REBOOT ACTIVE...</div>
         </div>
-
     </div>
 
     <script>
-        // --- MULTI-QUADRANT INTEGRATIVE ENGINE FRAMEWORK SETUP ---
-        const map = L.map('map-container', {
-            center: [15.0, -20.0], zoom: 2, minZoom: 2, maxZoom: 5, zoomControl: false, attributionControl: false
-        });
-    </script>
+        const map = L.map('map-container', { center: [15.0, -20.0], zoom: 2, minZoom: 2, maxZoom: 5, zoomControl: false, attributionControl: false });
+        
+        L.GridLayer.DebugCoords = L.GridLayer.extend({ createTile: function () { var tile = document.createElement('div'); tile.style.border = '1px solid rgba(45, 55, 72, 0.12)'; return tile; } });
+        L.gridLayer.debugCoords = function(opts) { return new L.GridLayer.DebugCoords(opts); };
+        map.addLayer(L.gridLayer.debugCoords());
 
+        let selectedAsset = null;
+        const iconLayout = L.divIcon({ className: 'custom-emerald-pin', iconSize: [12, 12] });
+
+        // DYNAMIC ASYNC FETCH ENGINE: Downloads database.json directly over the cloud pipeline
+        async function loadConnectedDatabase() {
+            const consoleLog = document.getElementById('rov-log');
+            try {
+                // Fetches the data file sitting right inside your project directory folder
+            } catch (error) {
+                consoleLog.innerHTML += `<div>[ERR] Database load failed: ${error.message}</div>`;
+            }
+        }
+
+        loadConnectedDatabase();
+    </script>
 </body>
 </html>
