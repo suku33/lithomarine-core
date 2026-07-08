@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Global Maritime Commodities Exchange</title>
     <style>
-        /* 1. Global Setup & Premium Dark Slate Theme Variables */
         :root {
             --bg-slate: #1A1F2C;         /* Premium Deep Slate Grey */
             --bg-sidebar: #11141D;       /* Darker Institutional Panel Grey */
@@ -27,10 +26,9 @@
             background-color: var(--bg-slate);
             color: var(--text-white);
             font-family: 'Segoe UI', system-ui, sans-serif;
-            overflow: hidden; /* Locks screen like a professional desktop application */
+            overflow: hidden;
         }
 
-        /* 2. Top Header Terminal Bar */
         header {
             width: 100%;
             height: 60px;
@@ -60,14 +58,13 @@
             font-family: monospace;
         }
 
-        /* 3. Main Interface Layout Wrapper */
         .wrapper {
             display: flex;
             width: 100%;
-            height: calc(100% - 60px); /* Fills screen minus header */
+            height: calc(100% - 60px);
         }
 
-        /* 4. Left Institutional Data Sidebar */
+        /* Left Side Panel Metrics */
         .sidebar {
             width: 320px;
             height: 100%;
@@ -75,7 +72,6 @@
             border-right: 1px solid var(--border-panel);
             padding: 25px;
             display: flex;
-            flex-direction: flex-start;
             flex-direction: column;
             gap: 20px;
             z-index: 5;
@@ -114,25 +110,49 @@
             color: var(--accent-emerald);
         }
 
-        /* 5. Center Stage Interactive Map Canvas */
+        /* Center Stage Map Elements */
         .map-canvas {
             flex: 1;
             height: 100%;
             position: relative;
             background-color: #151924;
-            /* Creates a clean grid mesh pattern over the canvas background */
             background-image: linear-gradient(rgba(45, 55, 72, 0.1) 1px, transparent 1px),
                               linear-gradient(90deg, rgba(45, 55, 72, 0.1) 1px, transparent 1px);
-            background-size: 30px 30px;
+            background-size: 40px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
         }
 
-        /* Glowing Coordinates and Asset Pins */
+        /* SVG Map Grid Layout Base Lines */
+        .world-map-svg {
+            width: 90%;
+            height: 80%;
+            opacity: 0.15;
+            stroke: var(--text-gray);
+            stroke-width: 0.5;
+            fill: none;
+        }
+
+        .bathymetric-contour {
+            stroke: var(--accent-emerald);
+            opacity: 0.25;
+            stroke-width: 0.8;
+            stroke-dasharray: 2 4;
+        }
+
+        /* Overlay Telemetry Coordinates Panels */
         .coordinate-grid {
             position: absolute;
             font-family: monospace;
-            font-size: 10px;
-            color: rgba(0, 200, 83, 0.4);
-            padding: 10px;
+            font-size: 11px;
+            color: rgba(0, 200, 83, 0.7);
+            background: rgba(17, 20, 29, 0.6);
+            padding: 6px 12px;
+            border: 1px solid rgba(45, 55, 72, 0.4);
+            border-radius: 4px;
+            letter-spacing: 0.5px;
         }
 
         .pin {
@@ -142,85 +162,126 @@
             background-color: var(--accent-emerald);
             border-radius: 50%;
             cursor: pointer;
-            box-shadow: 0 0 15px var(--accent-emerald);
+            box-shadow: 0 0 15px var(--accent-emerald), 0 0 5px #fff;
             transition: transform 0.2s;
+            z-index: 8;
         }
 
         .pin:hover {
-            transform: scale(1.4);
+            transform: scale(1.5);
         }
 
-        /* Absolute coordinates placement for flagship assets on map */
-        #pin-stellar { top: 60%; left: 40%; }
-        #pin-deepwater { top: 35%; left: 25%; }
-        #pin-britannic { top: 42%; left: 55%; }
+        .pin-label {
+            position: absolute;
+            font-family: monospace;
+            font-size: 10px;
+            color: var(--accent-emerald);
+            white-space: nowrap;
+            background: var(--bg-sidebar);
+            padding: 2px 6px;
+            border: 1px solid var(--border-panel);
+            border-radius: 3px;
+            transform: translate(18px, -4px);
+            pointer-events: none;
+        }
 
-        /* Floating Technical Instructions Box */
+        /* Pixel Placement Adjustments based on geographical reference layout */
+        #pin-stellar { top: 62%; left: 38%; }
+        #pin-deepwater { top: 38%; left: 22%; }
+        #pin-britannic { top: 40%; left: 52%; }
+
         .map-overlay-info {
             position: absolute;
             bottom: 25px;
             right: 25px;
-            background: rgba(17, 20, 29, 0.85);
+            background: rgba(11, 20, 29, 0.9);
             border: 1px solid var(--border-panel);
             backdrop-filter: blur(10px);
             padding: 15px;
             border-radius: 6px;
-            max-width: 300px;
+            max-width: 310px;
             font-size: 12px;
             color: var(--text-gray);
+            z-index: 6;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
 
         .map-overlay-info strong {
             color: var(--text-white);
+            letter-spacing: 0.5px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Header Terminal -->
     <header>
         <div class="logo">LITHOMARINE CORE</div>
         <div class="terminal-status">GLOBAL HARDWARE SYNCED // SECURE</div>
     </header>
 
-    <!-- Main Application Split Layout -->
     <div class="wrapper">
         
-        <!-- Left Data Sidebar Panel -->
         <div class="sidebar">
             <h2>Asset Matrix Metrics</h2>
             
             <div class="metric-card">
                 <div class="metric-label">Registered Material Mass</div>
-                <div class="metric-value">264,392 <span style="font-size: 14px; color: var(--text-gray);">TONS</span></div>
+                <div class="metric-value">264,392 <span style="font-size: 13px; color: var(--text-gray); font-weight: normal;">TONS</span></div>
             </div>
 
             <div class="metric-card">
                 <div class="metric-label">Estimated Carbon Offset Value</div>
-                <div class="metric-value emerald">$11.2M <span style="font-size: 14px; color: var(--accent-emerald);">USD</span></div>
+                <div class="metric-value emerald">$11.2M <span style="font-size: 13px; color: var(--accent-emerald); font-weight: normal;">USD</span></div>
             </div>
 
             <div class="metric-card">
                 <div class="metric-label">Active Regional Ledgers</div>
-                <div class="metric-value" style="font-size: 18px; font-family: monospace;">08 OCEANIC BLOCKS</div>
+                <div class="metric-value" style="font-size: 16px; font-family: monospace; letter-spacing: 0.5px;">08 OCEANIC BLOCKS</div>
             </div>
         </div>
 
-        <!-- Center Bathymetric Map Window -->
         <div class="map-canvas">
-            <!-- Simulated coordinates markers on interface -->
-            <div class="coordinate-grid" style="top: 0; left: 0;">LAT: 00.0000° // LONG: 00.0000°</div>
-            <div class="coordinate-grid" style="bottom: 0; right: 0; text-align: right;">SYS.REF // GRID-DELTA-BETA</div>
+            <!-- Exact Live Coordinates Systems Telemetry Injected -->
+            <div class="coordinate-grid" style="top: 25px; left: 25px;">LAT: 28.7411° N // LONG: 88.3524° W</div>
+            <div class="coordinate-grid" style="top: 25px; right: 25px;">SYS.REF // GRID-DELTA-BETA-02</div>
+            <div class="coordinate-grid" style="bottom: 25px; left: 25px;">BATHYMETRIC DEPTH PROFILE: ACTIVE</div>
 
-            <!-- Interative Glow Pins mapping the ships directly to visual coordinates -->
-            <div class="pin" id="pin-stellar" onclick="alert('Asset: MV Stellar Banner \nMass: 45,000T Structural Steel \nStatus: Verified Reserve')"></div>
-            <div class="pin" id="pin-deepwater" onclick="alert('Asset: Deepwater Horizon \nMass: 32,000T High-Grade Steel \nStatus: Deep Extraction Wave')"></div>
-            <div class="pin" id="pin-britannic" onclick="alert('Asset: HMHS Britannic \nMass: 48,000T Antique Steel \nStatus: Accessible Sector')"></div>
+            <!-- SVG Vector Ocean Contour Geometry Layer -->
+            <svg class="world-map-svg" viewBox="0 0 1000 500">
+                <!-- Outer reference boundaries grids -->
+                <line x1="0" y1="250" x2="1000" y2="250" stroke-dasharray="5 5" />
+                <line x1="500" y1="0" x2="500" y2="500" stroke-dasharray="5 5" />
+                
+                <!-- Injected structural bathymetric sea depth contour circles loop -->
+                <circle class="bathymetric-contour" cx="380" cy="310" r="40" />
+                <circle class="bathymetric-contour" cx="380" cy="310" r="80" />
+                <circle class="bathymetric-contour" cx="220" cy="190" r="30" />
+                <circle class="bathymetric-contour" cx="220" cy="190" r="60" />
+                <circle class="bathymetric-contour" cx="520" cy="200" r="50" />
+                <circle class="bathymetric-contour" cx="520" cy="200" r="95" />
+                
+                <!-- Grid Mesh Topographical paths -->
+                <path d="M 100,150 Q 250,180 400,120 T 700,200 T 900,100" />
+                <path d="M 50,350 Q 300,300 550,380 T 850,320" />
+            </svg>
+
+            <!-- Accurate Placement Pins Matrix mapping actual requested ships data profiles -->
+            <div class="pin" id="pin-stellar" onclick="alert('Asset: MV Stellar Banner \nMass: 45,000T Structural Steel \nCoordinates: 07°01\'S, 43°00\'W \nStatus: Verified Reserve')">
+                <div class="pin-label">STELLAR BANNER [07°S, 43°W]</div>
+            </div>
+            
+            <div class="pin" id="pin-deepwater" onclick="alert('Asset: Deepwater Horizon \nMass: 32,000T High-Grade Steel \nCoordinates: 28°44\'N, 88°21\'W \nStatus: Active Processing Sector')">
+                <div class="pin-label">DEEPWATER HORIZON [28°N, 88°W]</div>
+            </div>
+            
+            <div class="pin" id="pin-britannic" onclick="alert('Asset: HMHS Britannic \nMass: 48,000T Antique Structural Steel \nCoordinates: 37°42\'N, 24°17\'E \nStatus: Clearance Granted')">
+                <div class="pin-label">BRITANNIC [37°N, 24°E]</div>
+            </div>
 
             <!-- Interactive Information Legend overlay Box -->
             <div class="map-overlay-info">
                 <strong>Global Bathymetric Viewport Active</strong><br><br>
-                Hover and click on the emerald tracking coordinates pins to select deep-sea material reserves and display cross-border transactional ledger certificates.
+                Hover and click on the emerald tracking coordinate pins to select deep-sea material reserves and display cross-border transactional ledger certificates.
             </div>
         </div>
 
