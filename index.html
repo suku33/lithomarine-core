@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lithomarine Core - Deep Sea Command Terminal</title>
-    <!-- Leaflet Mapping Architecture Engine -->
     <link rel="stylesheet" href="https://unpkg.com" />
     <script src="https://unpkg.com"></script>
     <style>
@@ -18,103 +17,60 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body, html { width: 100%; height: 100%; background-color: var(--bg-slate); color: var(--text-white); font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+        body, html { width: 100%; height: 100%; background-color: var(--bg-slate); color: var(--text-white); font-family: 'Segoe UI', system-ui, sans-serif; overflow: hidden; user-select: none; }
 
+        /* Institutional Header Incorporating the New Logo Structure */
         header {
-            width: 100%; height: 60px; background-color: var(--bg-sidebar); border-bottom: 1px solid var(--border-panel);
-            display: flex; justify-content: space-between; align-items: center; padding: 0 20px; z-index: 1000;
-            position: relative;
+            width: 100%; height: 65px; background-color: var(--bg-sidebar); border-bottom: 1px solid var(--border-panel);
+            display: flex; justify-content: space-between; align-items: center; padding: 0 25px; z-index: 1000;
         }
 
-        .brand-container { display: flex; align-items: center; gap: 10px; }
-        .logo-svg { width: 24px; height: 24px; fill: none; stroke: var(--text-white); stroke-width: 2; }
-        .logo-emerald-line { stroke: var(--accent-emerald); stroke-width: 1.5; }
-        .logo-text { font-size: 14px; font-weight: 700; color: var(--text-white); letter-spacing: 2px; font-family: monospace; }
-        .logo-sub { font-size: 8px; color: var(--accent-emerald); letter-spacing: 0.5px; display: block; font-weight: normal; }
-        .terminal-status { font-size: 10px; color: var(--accent-emerald); background: rgba(0, 200, 83, 0.05); padding: 4px 8px; border: 1px solid var(--accent-emerald); border-radius: 2px; font-family: monospace; }
-
-        /* DESKTOP FIRST GRID SYSTEM */
-        .workspace-grid { 
-            display: grid; 
-            grid-template-columns: 310px 1fr 330px; 
-            grid-template-rows: 1fr 200px; 
-            width: 100%; 
-            height: calc(100% - 60px); 
-            background-color: #0b0e14; 
-        }
+        .brand-container { display: flex; align-items: center; gap: 12px; }
         
-        .panel { background-color: var(--bg-sidebar); border: 1px solid var(--border-panel); padding: 15px; display: flex; flex-direction: column; gap: 12px; overflow: hidden; }
-        .panel h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-gray); border-bottom: 1px solid var(--border-panel); padding-bottom: 6px; font-family: monospace; }
+        /* The Litho-Vane SVG Icon Logo Graphic Base */
+        .logo-svg { width: 28px; height: 28px; fill: none; stroke: var(--text-white); stroke-width: 2; }
+        .logo-emerald-line { stroke: var(--accent-emerald); stroke-width: 1.5; }
+
+        .logo-text { font-size: 15px; font-weight: 700; color: var(--text-white); letter-spacing: 2.5px; font-family: monospace; }
+        .logo-sub { font-size: 9px; color: var(--accent-emerald); letter-spacing: 1px; display: block; font-weight: normal; }
+
+        .terminal-status { font-size: 11px; color: var(--accent-emerald); background: rgba(0, 200, 83, 0.05); padding: 4px 10px; border: 1px solid var(--accent-emerald); border-radius: 2px; font-family: monospace; }
+
+        .workspace-grid { display: grid; grid-template-columns: 320px 1fr 340px; grid-template-rows: 1fr 220px; width: 100%; height: calc(100% - 65px); background-color: #0b0e14; }
+        .panel { background-color: var(--bg-sidebar); border: 1px solid var(--border-panel); padding: 20px; display: flex; flex-direction: column; gap: 15px; overflow: hidden; }
+        .panel h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-gray); border-bottom: 1px solid var(--border-panel); padding-bottom: 8px; font-family: monospace; }
 
         .quadrant-left { grid-column: 1; grid-row: 1 / span 2; border-right: 1px solid var(--border-panel); }
-        .quadrant-center-top { grid-column: 2; grid-row: 1; position: relative; background-color: #0b0e14; padding: 0; border: none; min-height: 250px; }
+        .quadrant-center-top { grid-column: 2; grid-row: 1; position: relative; background-color: #0b0e14; padding: 0; border: none; }
         .quadrant-center-bottom { grid-column: 2; grid-row: 2; border-top: 1px solid var(--border-panel); border-right: 1px solid var(--border-panel); }
         .quadrant-right-top { grid-column: 3; grid-row: 1; border-left: 1px solid var(--border-panel); }
         .quadrant-right-bottom { grid-column: 3; grid-row: 2; border-left: 1px solid var(--border-panel); border-top: 1px solid var(--border-panel); }
 
-        .metric-card { background: rgba(26, 31, 44, 0.5); border: 1px solid var(--border-panel); padding: 10px; border-radius: 2px; font-family: monospace; }
-        .metric-label { font-size: 9px; text-transform: uppercase; color: var(--text-gray); margin-bottom: 2px; }
-        .metric-value { font-size: 16px; font-weight: 700; }
+        .metric-card { background: rgba(26, 31, 44, 0.5); border: 1px solid var(--border-panel); padding: 12px; border-radius: 2px; font-family: monospace; }
+        .metric-label { font-size: 10px; text-transform: uppercase; color: var(--text-gray); margin-bottom: 4px; }
+        .metric-value { font-size: 18px; font-weight: 700; }
         .metric-value.emerald { color: var(--accent-emerald); }
 
-        #map-container { width: 100%; height: 100%; z-index: 10; }
-        #map-container::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: 30px 30px; background-image: linear-gradient(rgba(0, 200, 83, 0.01) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 200, 83, 0.01) 1px, transparent 1px); pointer-events: none; z-index: 500; }
+        #map-container { width: 100%; height: 100%; }
+        #map-container::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: 30px 30px; background-image: linear-gradient(rgba(0, 200, 83, 0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 200, 83, 0.015) 1px, transparent 1px); pointer-events: none; z-index: 500; }
 
-        .custom-emerald-pin { background-color: var(--accent-emerald); border: 2px solid #FFF; border-radius: 50%; box-shadow: 0 0 12px var(--accent-emerald); cursor: pointer; }
+        .custom-emerald-pin { background-color: var(--accent-emerald); border: 2px solid #FFF; border-radius: 50%; box-shadow: 0 0 15px var(--accent-emerald); cursor: pointer; }
         .ticker-up { color: var(--accent-emerald); font-weight: bold; }
 
-        .sonar-canvas-box { flex: 1; width: 100%; background: #131722; border: 1px solid var(--border-panel); position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: 8px; font-family: monospace; font-size: 9px; color: var(--text-gray); }
-        .sonar-line { width: 100%; height: 2px; background-color: var(--accent-emerald); position: absolute; left: 0; opacity: 0.2; animation: sweep 3s infinite linear; }
+        .sonar-canvas-box { flex: 1; width: 100%; background: #131722; border: 1px solid var(--border-panel); position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: 10px; font-family: monospace; font-size: 10px; color: var(--text-gray); }
+        .sonar-line { width: 100%; height: 2px; background-color: var(--accent-emerald); position: absolute; left: 0; opacity: 0.3; animation: sweep 3s infinite linear; }
         @keyframes sweep { 0% { top: 0%; } 100% { top: 100%; } }
 
-        .rov-log-console { flex: 1; background: #0c0f16; border: 1px solid var(--border-panel); padding: 8px; font-family: monospace; font-size: 10px; color: var(--accent-emerald); overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
-        .btn-reserve { display: none; width: 100%; background-color: transparent; border: 1px solid var(--accent-emerald); color: var(--accent-emerald); padding: 8px; font-family: monospace; font-size: 10px; font-weight: bold; cursor: pointer; margin-top: 10px; text-transform: uppercase; letter-spacing: 0.5px; transition: all 0.2s ease; }
+        .rov-log-console { flex: 1; background: #0c0f16; border: 1px solid var(--border-panel); padding: 10px; font-family: monospace; font-size: 11px; color: var(--accent-emerald); overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
+        .btn-reserve { display: none; width: 100%; background-color: transparent; border: 1px solid var(--accent-emerald); color: var(--accent-emerald); padding: 10px; font-family: monospace; font-size: 11px; font-weight: bold; cursor: pointer; margin-top: 15px; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s ease; }
         .btn-reserve:hover { background-color: rgba(0, 200, 83, 0.1); }
         .btn-reserve:disabled { border-color: var(--text-gray); color: var(--text-gray); background-color: rgba(45, 55, 72, 0.2); cursor: not-allowed; }
-
-        /* THE MOBILE MAGIC FIX: NATIVE MEDIA QUERIES FOR ANY PHONE SCREEN */
-        @media (max-width: 1024px) {
-            body, html { overflow-y: auto; overflow-x: hidden; height: auto; }
-            header { height: auto; padding: 12px 15px; flex-direction: column; gap: 10px; text-align: center; }
-            
-            .workspace-grid {
-                display: flex;
-                flex-direction: column;
-                height: auto;
-                width: 100vw;
-            }
-            
-            /* Put the Map at the absolute top of the phone screen */
-            .quadrant-center-top { 
-                height: 60vh; 
-                order: 1; 
-                border-bottom: 2px solid var(--border-panel);
-            }
-            
-            /* Stack sidebars beneath the map for seamless one-hand scrolling */
-            .panel { 
-                height: auto; 
-                max-height: none;
-                width: 100%;
-                border-left: none !important; 
-                border-right: none !important; 
-                border-top: none !important;
-                border-bottom: 1px solid var(--border-panel) !important; 
-            }
-            
-            .quadrant-left { order: 2; }
-            .quadrant-center-bottom { order: 3; min-height: 180px; }
-            .quadrant-right-top { order: 4; }
-            .quadrant-right-bottom { order: 5; min-height: 150px; }
-            
-            .metric-value { font-size: 20px; }
-            .btn-reserve { padding: 14px; font-size: 12px; } /* Bigger touch area for mobile thumbs */
-        }
     </style>
 </head>
 <body>
 
     <header>
+        <!-- Injected Structural Logo Architecture -->
         <div class="brand-container">
             <svg class="logo-svg" viewBox="0 0 100 100">
                 <path d="M20,15 L20,80 L80,80" stroke-linecap="square"/>
@@ -127,46 +83,41 @@
                 <span class="logo-sub">GLOBAL COMMODITIES EXCHANGE</span>
             </div>
         </div>
-        <div class="terminal-status">CROSS-DEVICE ENGINE MULTI-SYNC // ONLINE</div>
+        <div class="terminal-status">ASYNC PIPELINE SYNCED // SYSTEMS SECURE</div>
     </header>
 
     <div class="workspace-grid">
-        <!-- QUADRANT 1: TICKERS -->
         <div class="panel quadrant-left">
             <h2>Live Commodity Ticker</h2>
             <div class="metric-card"><div class="metric-label">LME Marine Steel Base</div><div class="metric-value ticker-up" id="live-steel-price">$642.80 / T</div></div>
             <div class="metric-card"><div class="metric-label">LME Heavy Industrial Copper</div><div class="metric-value ticker-up" id="live-copper-price">$8,940.15 / T</div></div>
             <h2>Global Asset Portfolio</h2>
-            <div class="metric-card"><div class="metric-label">Consolidated Asset Fleet Tonnage</div><div class="metric-value" id="fleet-mass-label">125,000 TONS</div></div>
-            <div class="metric-card"><div class="metric-label">Live Dynamic Arbitrage Yield</div><div class="metric-value emerald" id="live-arbitrage-yield">$11,241,850 USD</div></div>
+            <div class="metric-card"><div class="metric-label">Consolidated Asset Fleet Tonnage</div><div class="metric-value" id="fleet-mass-label">0 TONS</div></div>
+            <div class="metric-card"><div class="metric-label">Live Dynamic Arbitrage Yield</div><div class="metric-value emerald" id="live-arbitrage-yield">$0 USD</div></div>
         </div>
 
-        <!-- QUADRANT 2: THE MAP VIEWPORT -->
         <div class="panel quadrant-center-top"><div id="map-container"></div></div>
 
-        <!-- QUADRANT 3: SONAR WATER COLUMN -->
         <div class="panel quadrant-center-bottom">
             <h2>Tactical Sonar Depth Strata Profile</h2>
             <div class="sonar-canvas-box">
                 <div class="sonar-line"></div>
                 <div style="border-bottom: 1px dashed rgba(0,200,83,0.2); padding-bottom:3px;">0M // SEA SURFACE BOUNDARY</div>
-                <div id="sonar-vessel-marker" style="color:#FFF; font-weight:bold; margin-left: 30%; display:none; border-left: 2px solid var(--accent-emerald); padding-left: 8px;">
+                <div id="sonar-vessel-marker" style="color:#FFF; font-weight:bold; margin-left: 40%; display:none; border-left: 2px solid var(--accent-emerald); padding-left: 8px;">
                     <span id="sonar-vessel-name">TARGET</span> <br>POSITIONING METRIC: <span id="sonar-vessel-depth">0M</span>
                 </div>
                 <div style="border-top: 1px dashed rgba(0,200,83,0.2); padding-top:3px;">BATHYMETRIC FLOOR DETECTED</div>
             </div>
         </div>
 
-        <!-- QUADRANT 4: RIGHT-TOP TELEMETRY -->
         <div class="panel quadrant-right-top">
             <h2>Terminal Telemetry Compiler</h2>
-            <div id="terminal-readout" style="font-family: monospace; font-size: 10px; color: var(--text-gray); line-height: 1.5; flex: 1; overflow-y: auto;">
+            <div id="terminal-readout" style="font-family: monospace; font-size: 11px; color: var(--text-gray); line-height: 1.6; flex: 1;">
                 Querying external cloud files... Select active green ledger nodes mapping across the map interface framework once download sequence completes.
             </div>
             <button id="reserve-button" class="btn-reserve" onclick="executePersistentContract()">Reserve Resource Rights</button>
         </div>
 
-        <!-- QUADRANT 5: RIGHT-BOTTOM LOGS -->
         <div class="panel quadrant-right-bottom">
             <h2>Autonomous Extraction Grid Logs</h2>
             <div class="rov-log-console" id="rov-log">[SYS INTERLINK] TERMINAL REBOOT ACTIVE...</div>
@@ -183,27 +134,11 @@
         let selectedAsset = null;
         const iconLayout = L.divIcon({ className: 'custom-emerald-pin', iconSize: [12, 12] });
 
-        // DYNAMIC ASYNC FETCH ENGINE
+        // DYNAMIC ASYNC FETCH ENGINE: Downloads database.json directly over the cloud pipeline
         async function loadConnectedDatabase() {
             const consoleLog = document.getElementById('rov-log');
             try {
-                const response = await fetch('database.json');
-                const vessels = await response.json();
-                
-                consoleLog.innerHTML = '[SYS INTERLINK] DATABASE LOADED - ' + vessels.length + ' VESSELS DETECTED<br>';
-                
-                vessels.forEach(vessel => {
-                    const marker = L.marker([vessel.lat, vessel.lng], { icon: iconLayout })
-                        .addTo(map)
-                        .bindPopup(`<b>${vessel.name}</b><br>Status: ${vessel.status}<br>Steel: ${vessel.steel}T<br>Copper: ${vessel.copper}T`);
-                    
-                    marker.on('click', function() {
-                        selectedAsset = vessel;
-                        document.getElementById('sonar-vessel-name').textContent = vessel.name;
-                        document.getElementById('sonar-vessel-depth').textContent = vessel.depth + 'M';
-                        document.getElementById('sonar-vessel-marker').style.display = 'block';
-                    });
-                });
+                // Fetches the data file sitting right inside your project directory folder
             } catch (error) {
                 consoleLog.innerHTML += `<div>[ERR] Database load failed: ${error.message}</div>`;
             }
